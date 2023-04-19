@@ -3,12 +3,14 @@ import { Note as NoteModel } from '../../models/notes';
 import { Card } from 'react-bootstrap';
 import './Note.css';
 import { formatDate } from '../../utils/formatDate';
+import { MdDelete } from 'react-icons/md';
 
 interface NoteProps {
-  note: NoteModel
+  note: NoteModel,
+  onDeleteClicked: (note: NoteModel) => void,
 }
 
-const Note =  ({ note }: NoteProps) => {
+const Note =  ({ note, onDeleteClicked }: NoteProps) => {
 
 
   const {
@@ -31,6 +33,10 @@ if(updatedAt > createdAt) {
         <Card.Body className='card__container-body'>
           <Card.Title>
             {title}
+            <MdDelete className='float-end' onClick={(e) => {
+              onDeleteClicked(note);
+              e.stopPropagation();
+            }} /> 
           </Card.Title>
           <Card.Text>
             {text}
