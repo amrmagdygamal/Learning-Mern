@@ -1,0 +1,14 @@
+.card__container {
+  background-color: burlywood;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px 0 rgba(253, 253, 253, 0.41);
+  padding: .3rem;
+  height: 200PX;
+  cursor: pointer;
+
+}
+
+.card__container-body{
+  background-color: rgb(126, 126, 126);
+  overflow: hidden;
+}
