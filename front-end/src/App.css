@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box !important;
+  outline: none;
+}
+
+.add-button {
+  background-color: goldenrod;
+  border-color: rgb(169, 125, 13);
+  border-width: 3px;
+}
+.add-button:hover,
+.add-button:focus,
+.add-button:active,
+.add-button:active:hover {
+  background-color: goldenrod;
+  border: 3px solid rgb(235, 212, 147);
+}
+
+.wood {
+  background-color: rgb(176, 139, 92);
+}
+
+.goldenrod {
+  background-color: goldenrod;
+}
+
+.input {
+  background-color: ;
+}

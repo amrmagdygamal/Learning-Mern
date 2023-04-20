@@ -7,10 +7,11 @@ import { MdDelete } from 'react-icons/md';
 
 interface NoteProps {
   note: NoteModel,
+  onNoteClicked: (note: NoteModel) => void,
   onDeleteClicked: (note: NoteModel) => void,
 }
 
-const Note =  ({ note, onDeleteClicked }: NoteProps) => {
+const Note =  ({ note, onNoteClicked, onDeleteClicked }: NoteProps) => {
 
 
   const {
@@ -29,9 +30,9 @@ if(updatedAt > createdAt) {
 
   return (
     <div>
-      <Card className='card__container'>
+      <Card onClick={() => onNoteClicked(note)} className='card__container'>
         <Card.Body className='card__container-body'>
-          <Card.Title>
+          <Card.Title className='border-bottom border-4 text-center border-dark pb-2 '>
             {title}
             <MdDelete className='float-end' onClick={(e) => {
               onDeleteClicked(note);

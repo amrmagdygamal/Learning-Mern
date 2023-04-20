@@ -5,23 +5,35 @@ import { useForm } from "react-hook-form";
 import { NoteInput } from "../network/notes_api";
 import * as NoteApi from "../network/notes_api";
 
-interface DialogAddNoteProps {
+interface DialogAddEditNoteProps {
+  noteToEdit?: Note,
   onDismiss: () => void;
   onNoteSave: (note: Note) => void;
 }
 
-function AddingNotes({ onDismiss, onNoteSave }: DialogAddNoteProps) {
+function AddEditNotes({ noteToEdit, onDismiss, onNoteSave }: DialogAddEditNoteProps) {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<NoteInput>();
+  } = useForm<NoteInput>({
+    defaultValues: {
+      title: noteToEdit?.title || "",
+      text: noteToEdit?.text || "",
+    }
+  });
 
   async function onSubmit(input: NoteInput) {
     try {
-      const noteResponse = await NoteApi.creatNote(input);
+      let noteResponse: Note;
+
+      if(noteToEdit) {
+        noteResponse = await NoteApi.updateNote(noteToEdit._id, input);
+      } else {
+        noteResponse = await NoteApi.creatNote(input);
+      }
+      
       onNoteSave(noteResponse);
-      onDismiss();
     } catch (error) {
       console.error(error);
       alert(error);
@@ -29,16 +41,19 @@ function AddingNotes({ onDismiss, onNoteSave }: DialogAddNoteProps) {
   }
 
   return (
-    <Modal show onHide={onDismiss}>
-      <Modal.Header closeButton>
-        <Modal.Title>Add Note</Modal.Title>
+    <Modal  show onHide={onDismiss}>
+      <Modal.Header className="wood" closeButton>
+        <Modal.Title className="wood">
+          {noteToEdit ? "Edit note" : "Add note" }
+        </Modal.Title>
       </Modal.Header>
 
-      <Modal.Body>
-        <Form id="addNote" onSubmit={handleSubmit(onSubmit)}>
+      <Modal.Body className="wood">
+        <Form className="wood" id="addEditNote" onSubmit={handleSubmit(onSubmit)}>
           <Form.Group className="mb-3">
             <Form.Label>Title</Form.Label>
             <Form.Control
+            
               type="text"
               placeholder="Title"
               {...register("title", { required: "Required" })}
@@ -48,7 +63,7 @@ function AddingNotes({ onDismiss, onNoteSave }: DialogAddNoteProps) {
             )}
           </Form.Group>
 
-          <Form.Group className="mb-3">
+          <Form.Group  className="mb-3">
             <Form.Label>Text</Form.Label>
             <Form.Control
               as="textarea"
@@ -60,13 +75,14 @@ function AddingNotes({ onDismiss, onNoteSave }: DialogAddNoteProps) {
         </Form>
       </Modal.Body>
 
-      <Modal.Footer>
+      <Modal.Footer className="wood">
         <Button variant="secondary" onClick={onDismiss}>
           Cancel
         </Button>
         <Button
           type="submit" 
-          form="addNote"
+          className="add-button"
+          form="addEditNote"
           disabled={isSubmitting}>
           {isSubmitting ? "Adding note..." : "Add Note"}
         </Button>
@@ -75,4 +91,4 @@ function AddingNotes({ onDismiss, onNoteSave }: DialogAddNoteProps) {
   );
 }
 
-export default AddingNotes;
+export default AddEditNotes;
