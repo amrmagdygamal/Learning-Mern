@@ -5,15 +5,15 @@ import bcrypt from 'bcrypt';
 
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
-  const authenticatedUser = req.session.userId;
+  const authenticatedUserId = req.session.userId;
 
   try {
     
-    if(!authenticatedUser) {
+    if(!authenticatedUserId) {
       throw createHttpError(401, "User not authenticated");
     }
 
-    const user = await UserModel.findById(authenticatedUser).select("+email").exec();
+    const user = await UserModel.findById(authenticatedUserId).select("+email").exec();
 
     res.status(200).json(user);
   } catch (error) {
@@ -114,6 +114,6 @@ export const logout: RequestHandler = (req, res, next) => {
     }else {
       res.sendStatus(200);
     }
-  })
+  });
 
-}
+};
