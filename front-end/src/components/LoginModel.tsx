@@ -1,4 +1,3 @@
-import React from 'react';
 import { User } from '../models/users';
 import { useForm } from 'react-hook-form';
 import { LoginCredentials } from '../network/notes_api';

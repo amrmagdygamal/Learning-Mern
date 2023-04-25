@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { Note as NoteModel } from "./models/notes";
 import Note from "./components/Note/Note";
