@@ -7,6 +7,8 @@ import * as NotesApi from "./network/notes_api";
 import AddingNotes from "./components/AddEditNotes";
 import { FaPlus } from 'react-icons/fa';
 import AddEditNotes from "./components/AddEditNotes";
+import SignUpModel from "./components/SignUpModel";
+import LoginModel from "./components/LoginModel";
 
 function App() {
   const [notes, setNotes] = useState<NoteModel[]>([]);
@@ -103,6 +105,18 @@ function App() {
           setNoteToEdit(null);
         }}
       />
+      }
+      {false && 
+        <SignUpModel 
+        onDismiss={() => {}}
+        onSignUpSuccess={() => {}}
+        />
+      }
+      {false && 
+        <LoginModel 
+        onDismiss={() => {}}
+        onLoginSuccess={() => {}}
+        />
       }
     </Container>
   );

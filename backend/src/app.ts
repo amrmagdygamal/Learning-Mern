@@ -27,7 +27,7 @@ app.use(session({
   })
 }));
 
-app.use("/notes", notesRoutes);
+app.use("/api/notes", notesRoutes);
 app.use("/api/users", userRoutes);
 
 

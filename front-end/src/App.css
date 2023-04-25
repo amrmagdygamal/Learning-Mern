@@ -11,19 +11,22 @@
 .add-button:hover,
 .add-button:focus,
 .add-button:active,
-.add-button:active:hover {
+.add-button:active:hover,
+.add-button:active:focus,
+.add-button:active:active {
   background-color: goldenrod;
   border: 3px solid rgb(235, 212, 147);
 }
 
 .wood {
-  background-color: rgb(176, 139, 92);
+  background-color: burlywood;
 }
 
 .goldenrod {
   background-color: goldenrod;
 }
 
-.input {
-  background-color: ;
+.input:focus {
+  border: 3px solid rgb(169, 125, 13); /* Change the outline color to red */
+  box-shadow: none; /* Remove the box shadow */
 }
