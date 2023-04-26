@@ -4,7 +4,7 @@
 }
 
 .add-button {
-  background-color: goldenrod;
+  background-color: #3b3b3b;
   border-color: rgb(169, 125, 13);
   border-width: 3px;
 }
@@ -14,12 +14,15 @@
 .add-button:active:hover,
 .add-button:active:focus,
 .add-button:active:active {
-  background-color: goldenrod;
+  background-color: #3b3b3b;
   border: 3px solid rgb(235, 212, 147);
 }
 
 .wood {
   background-color: burlywood;
+}
+.twood {
+  color: burlywood;
 }
 
 .goldenrod {

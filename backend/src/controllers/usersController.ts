@@ -40,7 +40,7 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
             throw createHttpError(409, "A user with this email address already exists. Please log in instead.");
         }
 
-        const passwordHashed = await bcrypt.hash(passwordRaw, 13);
+        const passwordHashed = await bcrypt.hash(passwordRaw, 10);
 
         const newUser = await UserModel.create({
             username: username,
