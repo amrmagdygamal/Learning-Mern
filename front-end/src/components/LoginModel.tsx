@@ -2,7 +2,9 @@ import { User } from '../models/users';
 import { useForm } from 'react-hook-form';
 import { LoginCredentials } from '../network/notes_api';
 import * as NotesApi from '../network/notes_api';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Alert, Button, Form, Modal } from 'react-bootstrap';
+import { useState } from 'react';
+import { ConflictError, UnauthorizedError } from '../errors/https_errors';
 
 interface LoginModelProps {
   onDismiss: () => void,
@@ -10,6 +12,8 @@ interface LoginModelProps {
 }
 
 const LoginModel = ({onDismiss, onLoginSuccess}: LoginModelProps) => {
+
+  const [errorText, setErrorText] = useState<string|null>(null);
 
   const { register, handleSubmit, formState: {errors, isSubmitting}} = useForm<LoginCredentials>();
 
@@ -21,7 +25,13 @@ const LoginModel = ({onDismiss, onLoginSuccess}: LoginModelProps) => {
       onLoginSuccess(user);
 
     } catch (error) {
-      alert(error);
+      
+      if(error instanceof UnauthorizedError) {
+        setErrorText(error.message);
+      } else  {
+
+        alert(error);
+      }
       console.error(error);
     }
   }
@@ -35,6 +45,9 @@ const LoginModel = ({onDismiss, onLoginSuccess}: LoginModelProps) => {
       </Modal.Header>
 
       <Modal.Body className="wood">
+        {errorText && 
+          <Alert variant='danger'>{errorText}</Alert>
+        }
         <Form onSubmit={handleSubmit(onSubmit)}>
           
         <Form.Group className="wood mb-3">

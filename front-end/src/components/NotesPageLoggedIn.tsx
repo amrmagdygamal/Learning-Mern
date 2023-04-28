@@ -68,7 +68,7 @@ const NotesPageLoggedIn = () => {
       </Button>
       {notesLoading && <Spinner animation="border" variant="primary" />}
       {showNotesLoadingErrors && (
-        <h2 className="alert alert-heading alert-warning">
+        <h2 className="twood m-5">
           Something went wrong. Please refresh the page.
         </h2>
       )}
@@ -78,7 +78,7 @@ const NotesPageLoggedIn = () => {
           {notes.length > 0 ? (
             notesLayout
           ) : (
-            <h2 className="">You don't have any notes yet.</h2>
+            <h2 className="twood mt-5">You don't have any notes yet.</h2>
           )}
         </>
       )}

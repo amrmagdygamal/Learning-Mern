@@ -2,7 +2,9 @@ import { User } from '../models/users';
 import { useForm } from 'react-hook-form';
 import { SignUpCredentials } from '../network/notes_api';
 import * as NotesApi from '../network/notes_api';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Alert, Button, Form, Modal } from 'react-bootstrap';
+import { ConflictError } from '../errors/https_errors';
+import { useState } from 'react';
 
 interface SignUpModelProps {
   onDismiss: () => void,
@@ -10,6 +12,9 @@ interface SignUpModelProps {
 }
 
 const SignUpModel = ({onDismiss, onSignUpSuccess}: SignUpModelProps) => {
+
+  const [errorText, setErrorText] = useState<string|null>(null);
+
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<SignUpCredentials>();
 
   async function onSubmit(credentials: SignUpCredentials) {
@@ -20,7 +25,13 @@ const SignUpModel = ({onDismiss, onSignUpSuccess}: SignUpModelProps) => {
 
       onSignUpSuccess(newUser);
     } catch (error) {
-      alert(error);
+
+      if(error instanceof ConflictError) {
+        setErrorText(error.message);
+      } else {
+
+        alert(error);
+      }
       console.error(error);
     }
   }
@@ -33,6 +44,10 @@ const SignUpModel = ({onDismiss, onSignUpSuccess}: SignUpModelProps) => {
       </Modal.Header>
 
       <Modal.Body className="wood">
+        {errorText &&
+          <Alert variant='danger'>{errorText}</Alert>
+
+        }
         <Form className="wood" onSubmit={handleSubmit(onSubmit)}>
 
         <Form.Group className="mb-3">

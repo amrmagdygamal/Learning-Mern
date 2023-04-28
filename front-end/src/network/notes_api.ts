@@ -1,3 +1,4 @@
+import { ConflictError, UnauthorizedError } from "../errors/https_errors";
 import { Note } from "../models/notes";
 import { User } from "../models/users";
 
@@ -10,7 +11,15 @@ async function fetchWithError(input: RequestInfo, init?: RequestInit) {
     const errorBody = await response.json();
     const errorMessage = errorBody.error;
 
-    throw Error(errorMessage);
+    if(response.status === 401) {
+      throw new UnauthorizedError(errorMessage);
+    } else if (response.status === 409) {
+      throw new ConflictError(errorMessage);
+    } else {
+
+      throw Error(errorMessage);
+    }
+
   }
 }
 
@@ -68,7 +77,7 @@ export interface NoteInput {
 }
 
 export async function creatNote(note: NoteInput): Promise<Note> {
-  const response = await fetchWithError("/notes", {
+  const response = await fetchWithError("/api/notes", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -82,7 +91,7 @@ export async function updateNote(
   noteId: string,
   note: NoteInput
 ): Promise<Note> {
-  const response = await fetchWithError("/notes/" + noteId, {
+  const response = await fetchWithError("/api/notes/" + noteId, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -93,7 +102,7 @@ export async function updateNote(
 }
 
 export async function deleteNote(noteId: string) {
-  await fetchWithError("/notes/" + noteId, {
+  await fetchWithError("/api/notes/" + noteId, {
     method: "DELETE",
   });
 }

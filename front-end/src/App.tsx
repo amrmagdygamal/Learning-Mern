@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
 import "./App.css";
 import LoginModel from "./components/LoginModel";
 import NavBar from "./components/NavBar";
 import SignUpModel from "./components/SignUpModel";
 import { User } from "./models/users";
 import * as NotesApi from './network/notes_api';
-import NotesPageLoggedIn from "./components/NotesPageLoggedIn";
-import NotesPageLoggedOut from "./components/NotesPageLoggedOut";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import NotesPage from "./pages/NotesPage";
+import PrivacePage from "./pages/PrivacePage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 
 const  App = () => {
@@ -37,6 +38,7 @@ useEffect(() => {
 })
 
   return (
+    <BrowserRouter>
     <>
       <NavBar
         loggedInUser={loggedInUser}
@@ -44,13 +46,21 @@ useEffect(() => {
         onLoginClicked={() => {setShowLoginModal(true)}}
         onLogOutSuccess={() => setLoggedInUser(null)}
       />
-      <Container className="w-100 d-flex flex-column align-items-center">
-        <>
-          { loggedInUser ? <NotesPageLoggedIn /> : <NotesPageLoggedOut />}
-        </>
-
-      </Container>
-
+      
+      <Routes>
+        <Route
+        path="/"
+        element={<NotesPage loggedInUser={loggedInUser}/>}
+        />
+        <Route
+        path="/privacy"
+        element={<PrivacePage />}
+        />
+        <Route
+        path="/*"
+        element={<NotFoundPage />}
+        />
+      </Routes>
       
       {showSignUpModal && (
           <SignUpModel onDismiss={() => setShowSignUpModal(false)} onSignUpSuccess={(user) => {
@@ -63,6 +73,7 @@ useEffect(() => {
           setShowLoginModal(false)
         }} />}
     </>
+    </BrowserRouter>
   );
 }
 

@@ -60,7 +60,7 @@ function AddEditNotes({
           <Form.Group className="mb-3">
             <Form.Label>Title</Form.Label>
             <Form.Control
-             className='input'
+              className='input'
               type="text"
               placeholder="Title"
               {...register("title", { required: "Required" })}
@@ -89,6 +89,7 @@ function AddEditNotes({
         </Button>
         <Button
           type="submit"
+          variant="secondary"
           className="add-button"
           form="addEditNote"
           disabled={isSubmitting}
