@@ -8,12 +8,12 @@ import mongoose from "mongoose";
 
 
 
-const port = env.PORT;
+const PORT: number = parseInt((process.env.PORT || "4000") as string, 10)
 
 mongoose.connect(env.MONGO_CONNETCTION).then(() => {
   console.log("Mongoose connected");
-  app.listen(port, () => {
-    console.log("Server runing on port: " + port);
+  app.listen(PORT, () => {
+    console.log("Server runing on PORT: " + PORT);
   });
 })
 .catch(console.error);

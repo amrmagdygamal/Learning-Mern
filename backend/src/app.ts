@@ -1,6 +1,7 @@
 import "dotenv/config";
 
 import express, { NextFunction, Request, Response } from "express";
+import path from 'path'
 import notesRoutes from './routes/notes';
 import userRoutes from './routes/users'
 import morgan from 'morgan';
@@ -30,6 +31,11 @@ app.use(session({
 
 app.use("/api/users", userRoutes);
 app.use("/api/notes", requiresAuthent, notesRoutes);
+
+app.use(express.static(path.join(__dirname, '../../front-end/dist')))
+app.get('*', (req: Request, res: Response) =>
+  res.sendFile(path.join(__dirname, '../../front-end/dist/index.html'))
+)
 
 
 app.use((req, res, next) => {
